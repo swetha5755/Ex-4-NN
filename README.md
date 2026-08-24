@@ -1,8 +1,8 @@
 
-<H3>ENTER YOUR NAME</H3>
-<H3>ENTER YOUR REGISTER NO.</H3>
+<H3>Name: Swetha S</H3>
+<H3>Reg No: 212224040344</H3>
 <H3>EX. NO.4</H3>
-<H3>DATE:</H3>
+<H3>DATE: 24-08-2026 </H3>
 <H1 ALIGN =CENTER>Implementation of MLP with Backpropagation for Multiclassification</H1>
 <H3>Aim:</H3>
 To implement a Multilayer Perceptron for Multi classification
@@ -43,7 +43,7 @@ MLP has the following features:
 
 3 Signals involved in MLP are:
 
- Functional Signal
+Functional Signal
 
 *input signal
 
@@ -53,15 +53,16 @@ MLP has the following features:
 
 Error Signal
 
-   *Originates at an output neuron
+*Originates at an output neuron
    
-   *Propagates backward through the network neuron
+*Propagates backward through the network neuron
    
-   *Involves error dependent function in one way or the other
+*Involves error dependent function in one way or the other
    
 Each hidden neuron or output neuron of MLP is designed to perform two computations:
 
-The computation of the function signal appearing at the output of a neuron which is expressed as a continuous non-linear function of the input signal and synaptic weights associated with that neuron
+The computation of the function signal appearing at the output of a neuron which is expressed as a continuous non-linear function of the input signal and synaptic 
+weights associated with that neuron
 
 The computation of an estimate of the gradient vector is needed for the backward pass through the network
 
@@ -69,29 +70,31 @@ TWO PASSES OF COMPUTATION:
 
 In the forward pass:
 
-•       Synaptic weights remain unaltered
+•  Synaptic weights remain unaltered
 
-•       Function signal are computed neuron by neuron
+•  Function signal are computed neuron by neuron
 
-•       Function signal of jth neuron is
-            ![image](https://user-images.githubusercontent.com/112920679/198814313-2426b3a2-5b8f-489e-af0a-674cc85bd89d.png)
-            ![image](https://user-images.githubusercontent.com/112920679/198814328-1a69a3cd-7e02-4829-b773-8338ac8dcd35.png)
-            ![image](https://user-images.githubusercontent.com/112920679/198814339-9c9e5c30-ac2d-4f50-910c-9732f83cabe4.png)
+•   Function signal of jth neuron is
+    ![image](https://user-images.githubusercontent.com/112920679/198814313-2426b3a2-5b8f-489e-af0a-674cc85bd89d.png)
+    ![image](https://user-images.githubusercontent.com/112920679/198814328-1a69a3cd-7e02-4829-b773-8338ac8dcd35.png)
+    ![image](https://user-images.githubusercontent.com/112920679/198814339-9c9e5c30-ac2d-4f50-910c-9732f83cabe4.png)
 
 
 
 If jth neuron is output neuron, the m=mL  and output of j th neuron is
-               ![image](https://user-images.githubusercontent.com/112920679/198814349-a6aee083-d476-41c4-b662-8968b5fc9880.png)
+
+![image](https://user-images.githubusercontent.com/112920679/198814349-a6aee083-d476-41c4-b662-8968b5fc9880.png)
 
 Forward phase begins with in the first hidden layer and end by computing ej(n) in the output layer
+
 ![image](https://user-images.githubusercontent.com/112920679/198814353-276eadb5-116e-4941-b04e-e96befae02ed.png)
 
 
 In the backward pass,
 
-•       It starts from the output layer by passing error signal towards leftward layer neurons to compute local gradient recursively in each neuron
+• It starts from the output layer by passing error signal towards leftward layer neurons to compute local gradient recursively in each neuron
 
-•        it changes the synaptic weight by delta rule
+• it changes the synaptic weight by delta rule
 
 ![image](https://user-images.githubusercontent.com/112920679/198814362-05a251fd-fceb-43cd-867b-75e6339d870a.png)
 
@@ -114,13 +117,55 @@ Normalize our dataset.
 
 8. Finally, call the functions confusion_matrix(), and the classification_report() in order to evaluate the performance of our classifier.
 
-<H3>Program:</H3> 
+## Program:
+```
+import pandas as pd
+from sklearn import preprocessing
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import classification_report, confusion_matrix
 
-Insert your code here
+irisdata = pd.read_csv('Wine_data.csv')
 
-<H3>Output:</H3>
+X = irisdata.iloc[:, 0:-1]
+y = irisdata[['Class']]
 
-Show your results here
+print(X.head())
+print(y.head())
 
-<H3>Result:</H3>
+print(y.Class.unique())
+
+le = preprocessing.LabelEncoder()
+y = y.apply(le.fit_transform)
+print(y.head())
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42)
+
+scaler = StandardScaler()
+scaler.fit(X_train)
+X_train = scaler.transform(X_train)
+X_test = scaler.transform(X_test)
+
+mlp = MLPClassifier(hidden_layer_sizes=(10, 10, 10), max_iter=1000, random_state=42)
+mlp.fit(X_train, y_train.values.ravel())
+
+predictions = mlp.predict(X_test)
+print(predictions)
+
+print(confusion_matrix(y_test, predictions))
+print(classification_report(y_test, predictions))
+
+```
+
+
+
+## Output:
+
+
+<img width="841" height="695" alt="image" src="https://github.com/user-attachments/assets/80326260-7afb-4084-a21a-e17daa807773" />
+
+
+## Result:
+
 Thus, MLP is implemented for multi-classification using python.
